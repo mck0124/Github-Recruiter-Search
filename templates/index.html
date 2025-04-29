@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GitHub Recruiter Search</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>GitHub 개발자 검색</h1>
+    <form method="POST">
+        <label for="language">사용 언어:</label>
+        <input type="text" name="language" placeholder="예: Python">
+
+        <label for="location">지역:</label>
+        <input type="text" name="location" placeholder="예: Seoul">
+
+        <button type="submit">검색</button>
+    </form>
+
+    {% if users %}
+        <h2>검색 결과:</h2>
+        <ul>
+        {% for user in users %}
+            <li>
+                <img src="{{ user.avatar_url }}" alt="avatar" width="40">
+                <a href="{{ user.html_url }}" target="_blank">{{ user.login }}</a>
+                <p>Email: {{ user.email if user.email else '없음' }}</p>
+            </li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
