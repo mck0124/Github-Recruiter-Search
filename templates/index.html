@@ -4,30 +4,74 @@
     <meta charset="UTF-8">
     <title>GitHub Recruiter Search</title>
     <link rel="stylesheet" href="/static/style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+        }
+        form {
+            margin-bottom: 2rem;
+        }
+        input, button {
+            margin: 0.5rem;
+        }
+        li {
+            list-style: none;
+            border: 1px solid #ddd;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+        }
+        img {
+            vertical-align: middle;
+            border-radius: 50%;
+        }
+        ul.score-details {
+            margin-top: 0.5em;
+            padding-left: 1em;
+        }
+        ul.score-details li {
+            list-style: disc;
+            margin-left: 1em;
+            padding: 0;
+        }
+    </style>
 </head>
 <body>
     <h1>GitHub 개발자 검색</h1>
+
     <form method="POST">
         <label for="language">사용 언어:</label>
-        <input type="text" name="language" placeholder="예: Python">
+        <input type="text" name="language" placeholder="예: Python" required>
 
         <label for="location">지역:</label>
-        <input type="text" name="location" placeholder="예: Seoul">
+        <input type="text" name="location" placeholder="예: Seoul" required>
 
         <button type="submit">검색</button>
     </form>
 
     {% if users %}
-        <h2>검색 결과:</h2>
+        <h2>검색 결과 (점수순 정렬):</h2>
         <ul>
         {% for user in users %}
             <li>
-                <img src="{{ user.avatar_url }}" alt="avatar" width="40">
-                <a href="{{ user.html_url }}" target="_blank">{{ user.login }}</a>
+                <img src="{{ user.avatar_url }}" alt="avatar" width="50">
+                <a href="{{ user.html_url }}" target="_blank" style="font-size: 1.2em; font-weight: bold; margin-left: 0.5em;">
+                    {{ user.login }}
+                </a>
                 <p>Email: {{ user.email if user.email else '없음' }}</p>
+                <p><strong>Score: {{ user.score }}</strong></p>
+                <ul class="score-details">
+                    <li>Followers: {{ user.followers }}</li>
+                    <li>Public Repositories: {{ user.public_repos }}</li>
+                    <li>Total Stars: {{ user.total_stars }}</li>
+                    <li>Total Forks: {{ user.total_forks }}</li>
+                </ul>
             </li>
         {% endfor %}
         </ul>
+    {% else %}
+        <p>검색 결과가 없습니다.</p>
     {% endif %}
 </body>
 </html>
